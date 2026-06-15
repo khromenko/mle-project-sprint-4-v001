@@ -2,10 +2,16 @@
 
 ## Склонируйте репозиторий
 
-Склонируйте репозиторий проекта:
-
+Сначала копируем себе оригинальный репозиторий в личное пространство Github в качестве шаблона (через UI Github)
 ```
-git clone https://github.com/yandex-praktikum/mle-project-sprint-4-v001.git
+# оригинал
+https://github.com/yandex-praktikum/mle-project-sprint-4-v001.git
+```
+
+Далее настраиваем рабочее пространство на ВМ
+```
+# клонируем репозиторий
+git clone https://github.com/khromenko/mle-project-sprint-4-v001.git
 ```
 
 ## Активируйте виртуальное окружение
@@ -15,13 +21,13 @@ git clone https://github.com/yandex-praktikum/mle-project-sprint-4-v001.git
 Создать новое виртуальное окружение можно командой:
 
 ```
-python3 -m venv env_recsys_start
+python3 -m venv .venv_mle-project-sprint-4-v001
 ```
 
 После его инициализации следующей командой
 
 ```
-. env_recsys_start/bin/activate
+. .venv_mle-project-sprint-4-v001/bin/activate
 ```
 
 установите в него необходимые Python-пакеты следующей командой
@@ -47,6 +53,15 @@ wget https://storage.yandexcloud.net/mle-data/ym/catalog_names.parquet
 wget https://storage.yandexcloud.net/mle-data/ym/interactions.parquet
 ```
 
+Скаченные файлы с данными переместим для удобства в директорию `data/datasets/`
+```ll -h data/datasets/
+:~/mle_projects/sprint-4/mle-project-sprint-4-v001$ ll -h data/datasets/
+total 1.2G
+-rw-rw-r-- 1 mle-user mle-user  35M Jul  4  2024 catalog_names.parquet
+-rw-rw-r-- 1 mle-user mle-user 1.2G Jul 14  2024 interactions.parquet
+-rw-rw-r-- 1 mle-user mle-user  19M Jul  4  2024 tracks.parquet
+```
+
 ## Запустите Jupyter Lab
 
 Запустите Jupyter Lab в командной строке
@@ -54,6 +69,7 @@ wget https://storage.yandexcloud.net/mle-data/ym/interactions.parquet
 ```
 jupyter lab --ip=0.0.0.0 --no-browser
 ```
+Для удобства работы можно открыть файл ноутбука прямо в интерфейсе VC Code
 
 # Расчёт рекомендаций
 
