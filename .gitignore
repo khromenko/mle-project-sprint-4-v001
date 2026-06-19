@@ -166,5 +166,5 @@ cython_debug/
 *.pickle
 
 # project environment
-#env_recsys_start/
 .venv_mle-project-sprint-4-v001/
+data/
