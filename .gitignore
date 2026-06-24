@@ -168,3 +168,4 @@ cython_debug/
 # project environment
 .venv_mle-project-sprint-4-v001/
 data/
+catboost_info/
