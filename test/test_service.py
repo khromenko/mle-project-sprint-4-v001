@@ -15,14 +15,14 @@ run test
     $ python -m pytest test/test_service.py --case=(offline|online|full) -s
 '''
 
-log = logging.getLogger(__name__)
+log = logging_config.create_logger(__name__)
 
 recsys_url='http://localhost:8000/get_recommendations'
 
 def setup_module():
-    logging_config.config(__name__)        
-
-#TestClient
+    pass
+    
+#FactApi TestClient - TODO
 
 def test_online(test_case: str):
     if test_case != 'online': skip('skip not "online" test case')

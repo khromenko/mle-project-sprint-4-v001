@@ -9,6 +9,7 @@ from app import logging_config
 test_case_option = '--case'
 
 def pytest_configure(config):
+    logging_config.root_config()
     logging.getLogger('urllib3').setLevel('INFO')
 
 def pytest_addoption(parser: Parser):
