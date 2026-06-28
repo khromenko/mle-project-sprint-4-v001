@@ -79,6 +79,9 @@ jupyter lab --ip=0.0.0.0 --no-browser
 
 - Код сервиса рекомендаций находится в файле `app\recommendations_service.py`.
 - Настройки логирования находится в файле `app\logging_config.py`.
+- Перед запуском необходимо прописать пути к подготовленным на Этапе 3 файлам модели в .env файле
+    - ML_MODEL_USER_DATA_PATH = data/recsys/recommendations.parquet
+    - ML_MODEL_COMMON_DATA_PATH = data/recsys/top_popular.parquet
 
 Запуск сервиса (из корневой директории проекта):
 

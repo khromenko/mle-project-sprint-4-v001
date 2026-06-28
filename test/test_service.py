@@ -1,8 +1,8 @@
 from pytest import Parser, FixtureRequest, fixture, skip, mark
 import requests
-import logging
 from random import randint
 from app import logging_config
+from fastapi import status
 from fastapi.testclient import TestClient
 
 '''
@@ -22,13 +22,11 @@ recsys_url='http://localhost:8000/get_recommendations'
 def setup_module():
     pass
     
-#FactApi TestClient - TODO
-
 def test_online(test_case: str):
     if test_case != 'online': skip('skip not "online" test case')
 
     url = f'{recsys_url}_online'
-    user_id, params = genereate_user_params()
+    params = genereate_user_params()
     
     log.debug(f'online: params = {params}, url = {url}')
     
@@ -40,7 +38,8 @@ def test_online(test_case: str):
         log.debug('response data = %s', response.text)
         
         if requests.codes.ok == status:
-            log.debug('recs for user_id = %s are: [%s]', user_id, response.json()['recs'])
+            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
+        
         else:
             log.debug('response reason = %s', response.reason)
 
@@ -48,28 +47,32 @@ def test_online(test_case: str):
         log.error('fail to connect to running service - %s', e)
 
 def genereate_user_params():
-    user_id = randint(0, 1320000)
-    params = {'user_id': user_id}
-    return user_id,params
+    params = {
+        'user_id': randint(0, 1320000), 
+        'top_k': randint(0, 100)
+    }    
+    return params
 
 
 def test_offline(test_case: str):
     if test_case != 'offline': skip('skip not "offline" test case')
 
     url = f'{recsys_url}_offline'
-    user_id, params = genereate_user_params()
+    params = genereate_user_params()
     
     log.debug(f'offline: params = {params}, url = {url}')
 
     try:
         response = requests.post(url=url, params=params)
-        status = response.status_code
+        resp_status = response.status_code
 
         log.debug('response status = %s', response.status_code)
         log.debug('response data = %s', response.text)
         
-        if requests.codes.ok == status:
-            log.debug('recs for user_id = %s are: [%s]', user_id, response.json()['recs'])
+        if status.HTTP_200_OK == resp_status:
+            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
+        elif status.HTTP_204_NO_CONTENT == resp_status:
+            log.warning('alert - no content for user')
         else:
             log.debug('response reason = %s', response.reason)
 
@@ -80,7 +83,7 @@ def test_full(test_case: str):
     if test_case != 'full': skip('skip not "full" test case')
 
     url = f'{recsys_url}_full'
-    user_id, params = genereate_user_params()
+    params = genereate_user_params()
     
     log.debug(f'full: params = {params}, url = {url}')
 
@@ -92,7 +95,7 @@ def test_full(test_case: str):
         log.debug('response data = %s', response.text)
         
         if requests.codes.ok == status:
-            log.debug('recs for user_id = %s are: [%s]', user_id, response.json()['recs'])
+            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
         else:
             log.debug('response reason = %s', response.reason)
 
