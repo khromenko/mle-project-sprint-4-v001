@@ -1,0 +1,43 @@
+29.06.26 21:36:05 | DEBUG | app.events.user_event_store:__init__:23 - User event store init done
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 80091826
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [80091826]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1170563, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1170563, items = [28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 35087, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 35087, items = [28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 32859902
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [32859902, 80091826]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 35087, item_id = 32859902
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 35087, items = [32859902, 28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 358718, item_id = 41666510
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 358718, items = [41666510]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [28259199, 32859902, 80091826]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1170563, item_id = 31430656
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1170563, items = [31430656, 28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1030306, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1030306, items = [28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1030306, item_id = 24001400
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1030306, items = [24001400, 28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 22070, item_id = 21692972
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 22070, items = [21692972]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 802001, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 802001, items = [28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 22070, item_id = 43854569
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 22070, items = [43854569, 21692972]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 55307683
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [55307683, 28259199, 32859902, 80091826]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 957176, item_id = 31430656
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 957176, items = [31430656]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1326627, item_id = 55307683
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1326627, items = [55307683]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 35087, item_id = 92255425
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 35087, items = [92255425, 32859902, 28259199]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 358718, item_id = 41666510
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 358718, items = [41666510]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 957176, item_id = 32859902
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 957176, items = [32859902, 31430656]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 957176, item_id = 55307683
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 957176, items = [55307683, 32859902, 31430656]
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 80091826
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [80091826, 55307683, 28259199, 32859902]

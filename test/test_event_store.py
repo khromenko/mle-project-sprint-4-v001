@@ -1,4 +1,5 @@
 import requests
+import random
 from random import randint, choice
 from app import logging_config
 from fastapi import status
@@ -17,11 +18,14 @@ log = logging_config.create_logger(__name__)
 
 event_store_url='http://localhost:8001'
 
+# random 10-sample from user personal recs dataset
 sample_user_ids = [1326627, 1202008, 22070, 1170563, 35087, 1030306, 358718, 1351299, 802001, 957176]
+
+# random 10-sample item ids
 sample_item_ids = [43854569, 55307683, 21692972, 92255425, 28259199, 31430656, 41666510, 32859902, 24001400, 80091826]
 
 def setup_module():
-    pass
+    random.seed(14)    
 
 def _genereate_user_event():
     params = {

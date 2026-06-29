@@ -1,0 +1,211 @@
+29.06.26 21:36:01 | INFO | app.recommendations_service:<module>:54 - FastApi app started (<fastapi.applications.FastAPI object at 0x7fa3caaac6a0>)
+29.06.26 21:36:01 | INFO | app.recommendations_service:lifespan_listener:28 - app starting (<fastapi.applications.FastAPI object at 0x7fa3caaac6a0>)
+29.06.26 21:36:01 | DEBUG | app.model_handler:__init__:19 - create model handler
+29.06.26 21:36:01 | INFO | app.model_handler:init_model:58 - user path = data/recsys/recommendations.parquet, common path: data/recsys/top_popular.parquet, user_columns = ['user_id', 'item_id', 'rank']
+29.06.26 21:36:03 | DEBUG | app.model_handler:_init_user_recs:34 - user recs data loaded: 
+          item_id  rank
+user_id                
+4        38646012     1
+4        32851197     2
+4        60292250     3
+4        38903142     4
+4        24327639     5
+...           ...   ...
+1374582  52395280    96
+1374582  33308971    97
+1374582   9167465    98
+1374582  37641523    99
+1374582  39946957   100
+
+[53670600 rows x 2 columns]
+29.06.26 21:36:03 | DEBUG | app.model_handler:_init_common_recs:44 - common recs data loaded: 
+           count
+item_id         
+53404     110026
+33311009  101076
+178529    100866
+35505245   95523
+24692821   84153
+...          ...
+68562711   47588
+75944934   47536
+75642961   47438
+29175370   47320
+68348389   47225
+
+[100 rows x 1 columns]
+29.06.26 21:36:03 | DEBUG | app.recommendations_service:lifespan_listener:43 - model is loaded
+29.06.26 21:36:05 | DEBUG | app.events.user_event_store:__init__:23 - User event store init done
+29.06.26 21:36:05 | DEBUG | app.events.user_event_service:<module>:22 - Event store service started
+29.06.26 21:36:09 | INFO | app.content.content_service:lifespan_listener:27 - app starting (<fastapi.applications.FastAPI object at 0x7fc98f37a560>)
+29.06.26 21:36:09 | DEBUG | app.content.sim_model_handler:__init__:18 - create SimModelHandler
+29.06.26 21:36:09 | INFO | app.content.sim_model_handler:init_model:29 - data_path = data/recsys/similar.parquet
+29.06.26 21:36:09 | DEBUG | app.content.sim_model_handler:init_model:35 - sim items data loaded: 
+           sim_item_id     score
+item_id                         
+26                  26  1.000000
+26            20111365  0.841317
+26            27419607  0.826416
+26            26343802  0.820421
+26             1293112  0.803062
+...                ...       ...
+101521819     92503045  0.849149
+101521819     97820398  0.848006
+101521819    101084646  0.844078
+101521819     94735558  0.837228
+101521819     97241633  0.830391
+
+[9326640 rows x 2 columns]
+29.06.26 21:36:09 | DEBUG | app.content.content_service:lifespan_listener:40 - model is loaded
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event:41 - add user event - url = http://localhost:8001/event, payload = {'user_id': 1202008, 'item_id': 80091826}
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 80091826
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [80091826]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event:47 - response status = 200, data = {"items":[80091826]}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event:50 - successfully add event - user id = 1202008 - result item ids = [80091826]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_user_events:67 - get user events - url = http://localhost:8001/event, params = {'user_id': 802001, 'recent_n': 3}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_user_events:73 - response status = 200, data = {"items":[]}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_user_events:76 - successfully got user events - user id = 802001 - item ids = [])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1170563, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1170563, items = [28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 1: successfully added event: user_id = 1170563 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 35087, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 35087, items = [28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 2: successfully added event: user_id = 35087 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 32859902
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [32859902, 80091826]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 3: successfully added event: user_id = 1202008 - result item ids = [32859902, 80091826])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 35087, item_id = 32859902
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 35087, items = [32859902, 28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 4: successfully added event: user_id = 35087 - result item ids = [32859902, 28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 358718, item_id = 41666510
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 358718, items = [41666510]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 5: successfully added event: user_id = 358718 - result item ids = [41666510])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [28259199, 32859902, 80091826]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 6: successfully added event: user_id = 1202008 - result item ids = [28259199, 32859902, 80091826])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1170563, item_id = 31430656
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1170563, items = [31430656, 28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 7: successfully added event: user_id = 1170563 - result item ids = [31430656, 28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1030306, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1030306, items = [28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 8: successfully added event: user_id = 1030306 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1030306, item_id = 24001400
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1030306, items = [24001400, 28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 9: successfully added event: user_id = 1030306 - result item ids = [24001400, 28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 22070, item_id = 21692972
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 22070, items = [21692972]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 10: successfully added event: user_id = 22070 - result item ids = [21692972])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 802001, item_id = 28259199
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 802001, items = [28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 11: successfully added event: user_id = 802001 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 22070, item_id = 43854569
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 22070, items = [43854569, 21692972]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 12: successfully added event: user_id = 22070 - result item ids = [43854569, 21692972])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 55307683
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [55307683, 28259199, 32859902, 80091826]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 13: successfully added event: user_id = 1202008 - result item ids = [55307683, 28259199, 32859902, 80091826])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 957176, item_id = 31430656
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 957176, items = [31430656]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 14: successfully added event: user_id = 957176 - result item ids = [31430656])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1326627, item_id = 55307683
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1326627, items = [55307683]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 15: successfully added event: user_id = 1326627 - result item ids = [55307683])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 35087, item_id = 92255425
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 35087, items = [92255425, 32859902, 28259199]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 16: successfully added event: user_id = 35087 - result item ids = [92255425, 32859902, 28259199])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 358718, item_id = 41666510
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 358718, items = [41666510]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 17: successfully added event: user_id = 358718 - result item ids = [41666510])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 957176, item_id = 32859902
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 957176, items = [32859902, 31430656]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 18: successfully added event: user_id = 957176 - result item ids = [32859902, 31430656])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 957176, item_id = 55307683
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 957176, items = [55307683, 32859902, 31430656]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 19: successfully added event: user_id = 957176 - result item ids = [55307683, 32859902, 31430656])
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:32 - put event - user_id = 1202008, item_id = 80091826
+29.06.26 21:36:13 | DEBUG | app.events.user_event_store:put:44 - event added: user_id = 1202008, items = [80091826, 55307683, 28259199, 32859902]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 20: successfully added event: user_id = 1202008 - result item ids = [80091826, 55307683, 28259199, 32859902])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_store:104 - get all events (store) - url = http://localhost:8001/store
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_store:110 - response status = 200, data = {"1202008":[80091826,55307683,28259199,32859902],"1170563":[31430656,28259199],"35087":[92255425,32859902,28259199],"358718":[41666510],"1030306":[24001400,28259199],"22070":[43854569,21692972],"802001":[28259199],"957176":[55307683,32859902,31430656],"1326627":[55307683]}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_store:113 - successfully got events store = {'1202008': [80091826, 55307683, 28259199, 32859902], '1170563': [31430656, 28259199], '35087': [92255425, 32859902, 28259199], '358718': [41666510], '1030306': [24001400, 28259199], '22070': [43854569, 21692972], '802001': [28259199], '957176': [55307683, 32859902, 31430656], '1326627': [55307683]})
+29.06.26 21:36:13 | DEBUG | test_event_store:test_stats:124 - get stats - url = http://localhost:8001/stats
+29.06.26 21:36:13 | DEBUG | test_event_store:test_stats:130 - response status = 200, data = {"user_event_add_count":21,"user_id_query_count":1,"all_store_query_count":1}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_stats:133 - successfully got stats
+29.06.26 21:36:23 | DEBUG | test_service:test_online:69 - online: params = {'user_id': 1202008, 'recent_n': 3, 'top_k': 10}, url = http://localhost:8000/get_recommendations_online
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:get_recommendations_online:78 - get online recs for user_id 1202008, top_k = 10
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_user_event_history:154 - get user events - url = http://localhost:8001/event, params = {'user_id': 1202008, 'recent_n': 3}
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8001
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8001 "GET /event?user_id=1202008&recent_n=3 HTTP/1.1" 200 38
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_user_event_history:162 - response status = 200, data = {"items":[80091826,55307683,28259199]}
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_user_event_history:172 - successfully got user events - user_id = 1202008 - item ids = [80091826, 55307683, 28259199]
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:207 - get similar items for items_id - 80091826, top_k = 10
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:215 - query content service - url = http://localhost:8002/similar, params = {'item_id': 80091826, 'top_k': 10}
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8002
+29.06.26 21:36:23 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 80091826, top_k = 100
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8002 "GET /similar?item_id=80091826&top_k=10 HTTP/1.1" 200 188
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:222 - response status = 200, data = {"item_id":[80091826,80091848,24986327,38931245,29049235,37610894,2198489,29049234,37610892,37610896],"score":[1.0,0.92964,0.86775,0.86681,0.86598,0.86474,0.86423,0.86398,0.86124,0.86077]}
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:227 - successfully got similar items for item (80091826) - item ids = {'item_id': [80091826, 80091848, 24986327, 38931245, 29049235, 37610894, 2198489, 29049234, 37610892, 37610896], 'score': [1.0, 0.92964, 0.86775, 0.86681, 0.86598, 0.86474, 0.86423, 0.86398, 0.86124, 0.86077]}
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:207 - get similar items for items_id - 55307683, top_k = 10
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:215 - query content service - url = http://localhost:8002/similar, params = {'item_id': 55307683, 'top_k': 10}
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8002
+29.06.26 21:36:23 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 55307683, top_k = 100
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8002 "GET /similar?item_id=55307683&top_k=10 HTTP/1.1" 200 188
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:222 - response status = 200, data = {"item_id":[55307683,55307673,29186024,56974133,55307681,33753123,51164528,55307676,56829535,51263410],"score":[1.0,0.81835,0.81481,0.80845,0.8019,0.80172,0.80045,0.79997,0.79984,0.79397]}
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:227 - successfully got similar items for item (55307683) - item ids = {'item_id': [55307683, 55307673, 29186024, 56974133, 55307681, 33753123, 51164528, 55307676, 56829535, 51263410], 'score': [1.0, 0.81835, 0.81481, 0.80845, 0.8019, 0.80172, 0.80045, 0.79997, 0.79984, 0.79397]}
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:207 - get similar items for items_id - 28259199, top_k = 10
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:215 - query content service - url = http://localhost:8002/similar, params = {'item_id': 28259199, 'top_k': 10}
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8002
+29.06.26 21:36:23 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 28259199, top_k = 100
+29.06.26 21:36:23 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8002 "GET /similar?item_id=28259199&top_k=10 HTTP/1.1" 200 182
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:222 - response status = 200, data = {"item_id":[28259199,64972604,80634875,890111,4638274,133057,25489487,51636774,875467,29940978],"score":[1.0,0.90628,0.88773,0.87815,0.86891,0.85791,0.85662,0.85578,0.85519,0.85458]}
+29.06.26 21:36:23 | DEBUG | app.recommendations_service:_query_similar_items:227 - successfully got similar items for item (28259199) - item ids = {'item_id': [28259199, 64972604, 80634875, 890111, 4638274, 133057, 25489487, 51636774, 875467, 29940978], 'score': [1.0, 0.90628, 0.88773, 0.87815, 0.86891, 0.85791, 0.85662, 0.85578, 0.85519, 0.85458]}
+29.06.26 21:36:23 | DEBUG | test_service:test_online:75 - response status = 200, data = {"recs":[80091826,55307683,28259199,80091848,64972604,80634875,890111,4638274,24986327,38931245]}
+29.06.26 21:36:23 | DEBUG | test_service:test_online:78 - successfully got recs for user (count = 10)
+29.06.26 21:36:23 | DEBUG | test_service:test_stats:115 - get stats - url = http://localhost:8000/stats
+29.06.26 21:36:23 | DEBUG | test_service:test_stats:121 - response status = 200, data = {"online_recs_events_query_success_count":1,"online_recs_similar_query_success_count":3}
+29.06.26 21:36:23 | DEBUG | test_service:test_stats:124 - successfully got stats - metrics are: 
+ {'online_recs_events_query_success_count': 1, 'online_recs_similar_query_success_count': 3}
+29.06.26 21:36:24 | DEBUG | test_service:test_offline:43 - offline: params = {'user_id': 1202008, 'recent_n': 3, 'top_k': 10}, url = http://localhost:8000/get_recommendations_offline
+29.06.26 21:36:24 | DEBUG | app.recommendations_service:get_recommendations_offline:62 - get offline recs for user_id 1202008, top_k = 10
+29.06.26 21:36:24 | DEBUG | app.model_handler:get_recommendations_offline:64 - get recs for user_id = 1202008, top_k = 10
+29.06.26 21:36:24 | DEBUG | test_service:test_offline:49 - response status = 200, data = {"recs":[56920241,62352387,49961817,54798445,50834580,58515506,51516485,57921154,41883693,53357546]}
+29.06.26 21:36:24 | DEBUG | test_service:test_offline:52 - successfully got recs for user = [56920241, 62352387, 49961817, 54798445, 50834580, 58515506, 51516485, 57921154, 41883693, 53357546])
+29.06.26 21:36:24 | DEBUG | test_service:test_stats:115 - get stats - url = http://localhost:8000/stats
+29.06.26 21:36:24 | DEBUG | test_service:test_stats:121 - response status = 200, data = {"online_recs_events_query_success_count":1,"online_recs_similar_query_success_count":3,"offline_recs_success_query_count":1,"offline_recs_model_success_count":1}
+29.06.26 21:36:24 | DEBUG | test_service:test_stats:124 - successfully got stats - metrics are: 
+ {'online_recs_events_query_success_count': 1, 'online_recs_similar_query_success_count': 3, 'offline_recs_success_query_count': 1, 'offline_recs_model_success_count': 1}
+29.06.26 21:36:25 | DEBUG | test_service:test_full:92 - full: params = {'user_id': 1202008, 'recent_n': 3, 'top_k': 10}, url = http://localhost:8000/get_recommendations_full
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:get_recommendations_full:93 - get full recs for user_id 1202008, top_k = 10
+29.06.26 21:36:25 | DEBUG | app.model_handler:get_recommendations_offline:64 - get recs for user_id = 1202008, top_k = 10
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_user_event_history:154 - get user events - url = http://localhost:8001/event, params = {'user_id': 1202008, 'recent_n': 3}
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8001
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8001 "GET /event?user_id=1202008&recent_n=3 HTTP/1.1" 200 38
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_user_event_history:162 - response status = 200, data = {"items":[80091826,55307683,28259199]}
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_user_event_history:172 - successfully got user events - user_id = 1202008 - item ids = [80091826, 55307683, 28259199]
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:207 - get similar items for items_id - 80091826, top_k = 10
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:215 - query content service - url = http://localhost:8002/similar, params = {'item_id': 80091826, 'top_k': 10}
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8002
+29.06.26 21:36:25 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 80091826, top_k = 100
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8002 "GET /similar?item_id=80091826&top_k=10 HTTP/1.1" 200 188
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:222 - response status = 200, data = {"item_id":[80091826,80091848,24986327,38931245,29049235,37610894,2198489,29049234,37610892,37610896],"score":[1.0,0.92964,0.86775,0.86681,0.86598,0.86474,0.86423,0.86398,0.86124,0.86077]}
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:227 - successfully got similar items for item (80091826) - item ids = {'item_id': [80091826, 80091848, 24986327, 38931245, 29049235, 37610894, 2198489, 29049234, 37610892, 37610896], 'score': [1.0, 0.92964, 0.86775, 0.86681, 0.86598, 0.86474, 0.86423, 0.86398, 0.86124, 0.86077]}
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:207 - get similar items for items_id - 55307683, top_k = 10
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:215 - query content service - url = http://localhost:8002/similar, params = {'item_id': 55307683, 'top_k': 10}
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8002
+29.06.26 21:36:25 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 55307683, top_k = 100
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8002 "GET /similar?item_id=55307683&top_k=10 HTTP/1.1" 200 188
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:222 - response status = 200, data = {"item_id":[55307683,55307673,29186024,56974133,55307681,33753123,51164528,55307676,56829535,51263410],"score":[1.0,0.81835,0.81481,0.80845,0.8019,0.80172,0.80045,0.79997,0.79984,0.79397]}
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:227 - successfully got similar items for item (55307683) - item ids = {'item_id': [55307683, 55307673, 29186024, 56974133, 55307681, 33753123, 51164528, 55307676, 56829535, 51263410], 'score': [1.0, 0.81835, 0.81481, 0.80845, 0.8019, 0.80172, 0.80045, 0.79997, 0.79984, 0.79397]}
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:207 - get similar items for items_id - 28259199, top_k = 10
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:215 - query content service - url = http://localhost:8002/similar, params = {'item_id': 28259199, 'top_k': 10}
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_new_conn:241 - Starting new HTTP connection (1): localhost:8002
+29.06.26 21:36:25 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 28259199, top_k = 100
+29.06.26 21:36:25 | DEBUG | urllib3.connectionpool:_make_request:544 - http://localhost:8002 "GET /similar?item_id=28259199&top_k=10 HTTP/1.1" 200 182
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:222 - response status = 200, data = {"item_id":[28259199,64972604,80634875,890111,4638274,133057,25489487,51636774,875467,29940978],"score":[1.0,0.90628,0.88773,0.87815,0.86891,0.85791,0.85662,0.85578,0.85519,0.85458]}
+29.06.26 21:36:25 | DEBUG | app.recommendations_service:_query_similar_items:227 - successfully got similar items for item (28259199) - item ids = {'item_id': [28259199, 64972604, 80634875, 890111, 4638274, 133057, 25489487, 51636774, 875467, 29940978], 'score': [1.0, 0.90628, 0.88773, 0.87815, 0.86891, 0.85791, 0.85662, 0.85578, 0.85519, 0.85458]}
+29.06.26 21:36:25 | DEBUG | test_service:test_full:98 - response status = 200, data = {"recs":[80091826,56920241,55307683,62352387,28259199,49961817,80091848,54798445,64972604,50834580]}
+29.06.26 21:36:25 | DEBUG | test_service:test_full:101 - successfully got recs for user = [80091826, 56920241, 55307683, 62352387, 28259199, 49961817, 80091848, 54798445, 64972604, 50834580])
+29.06.26 21:36:25 | DEBUG | test_service:test_stats:115 - get stats - url = http://localhost:8000/stats
+29.06.26 21:36:25 | DEBUG | test_service:test_stats:121 - response status = 200, data = {"online_recs_events_query_success_count":2,"online_recs_similar_query_success_count":6,"offline_recs_success_query_count":2,"full_recs_success_query_count":1,"offline_recs_model_success_count":2}
+29.06.26 21:36:25 | DEBUG | test_service:test_stats:124 - successfully got stats - metrics are: 
+ {'online_recs_events_query_success_count': 2, 'online_recs_similar_query_success_count': 6, 'offline_recs_success_query_count': 2, 'full_recs_success_query_count': 1, 'offline_recs_model_success_count': 2}

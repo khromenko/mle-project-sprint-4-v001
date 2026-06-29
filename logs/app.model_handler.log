@@ -1,0 +1,36 @@
+29.06.26 21:36:01 | DEBUG | app.model_handler:__init__:19 - create model handler
+29.06.26 21:36:01 | INFO | app.model_handler:init_model:58 - user path = data/recsys/recommendations.parquet, common path: data/recsys/top_popular.parquet, user_columns = ['user_id', 'item_id', 'rank']
+29.06.26 21:36:03 | DEBUG | app.model_handler:_init_user_recs:34 - user recs data loaded: 
+          item_id  rank
+user_id                
+4        38646012     1
+4        32851197     2
+4        60292250     3
+4        38903142     4
+4        24327639     5
+...           ...   ...
+1374582  52395280    96
+1374582  33308971    97
+1374582   9167465    98
+1374582  37641523    99
+1374582  39946957   100
+
+[53670600 rows x 2 columns]
+29.06.26 21:36:03 | DEBUG | app.model_handler:_init_common_recs:44 - common recs data loaded: 
+           count
+item_id         
+53404     110026
+33311009  101076
+178529    100866
+35505245   95523
+24692821   84153
+...          ...
+68562711   47588
+75944934   47536
+75642961   47438
+29175370   47320
+68348389   47225
+
+[100 rows x 1 columns]
+29.06.26 21:36:24 | DEBUG | app.model_handler:get_recommendations_offline:64 - get recs for user_id = 1202008, top_k = 10
+29.06.26 21:36:25 | DEBUG | app.model_handler:get_recommendations_offline:64 - get recs for user_id = 1202008, top_k = 10

@@ -1,0 +1,32 @@
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event:41 - add user event - url = http://localhost:8001/event, payload = {'user_id': 1202008, 'item_id': 80091826}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event:47 - response status = 200, data = {"items":[80091826]}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event:50 - successfully add event - user id = 1202008 - result item ids = [80091826]
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_user_events:67 - get user events - url = http://localhost:8001/event, params = {'user_id': 802001, 'recent_n': 3}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_user_events:73 - response status = 200, data = {"items":[]}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_user_events:76 - successfully got user events - user id = 802001 - item ids = [])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 1: successfully added event: user_id = 1170563 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 2: successfully added event: user_id = 35087 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 3: successfully added event: user_id = 1202008 - result item ids = [32859902, 80091826])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 4: successfully added event: user_id = 35087 - result item ids = [32859902, 28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 5: successfully added event: user_id = 358718 - result item ids = [41666510])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 6: successfully added event: user_id = 1202008 - result item ids = [28259199, 32859902, 80091826])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 7: successfully added event: user_id = 1170563 - result item ids = [31430656, 28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 8: successfully added event: user_id = 1030306 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 9: successfully added event: user_id = 1030306 - result item ids = [24001400, 28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 10: successfully added event: user_id = 22070 - result item ids = [21692972])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 11: successfully added event: user_id = 802001 - result item ids = [28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 12: successfully added event: user_id = 22070 - result item ids = [43854569, 21692972])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 13: successfully added event: user_id = 1202008 - result item ids = [55307683, 28259199, 32859902, 80091826])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 14: successfully added event: user_id = 957176 - result item ids = [31430656])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 15: successfully added event: user_id = 1326627 - result item ids = [55307683])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 16: successfully added event: user_id = 35087 - result item ids = [92255425, 32859902, 28259199])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 17: successfully added event: user_id = 358718 - result item ids = [41666510])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 18: successfully added event: user_id = 957176 - result item ids = [32859902, 31430656])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 19: successfully added event: user_id = 957176 - result item ids = [55307683, 32859902, 31430656])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_add_user_event_20_times:93 - 20: successfully added event: user_id = 1202008 - result item ids = [80091826, 55307683, 28259199, 32859902])
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_store:104 - get all events (store) - url = http://localhost:8001/store
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_store:110 - response status = 200, data = {"1202008":[80091826,55307683,28259199,32859902],"1170563":[31430656,28259199],"35087":[92255425,32859902,28259199],"358718":[41666510],"1030306":[24001400,28259199],"22070":[43854569,21692972],"802001":[28259199],"957176":[55307683,32859902,31430656],"1326627":[55307683]}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_get_store:113 - successfully got events store = {'1202008': [80091826, 55307683, 28259199, 32859902], '1170563': [31430656, 28259199], '35087': [92255425, 32859902, 28259199], '358718': [41666510], '1030306': [24001400, 28259199], '22070': [43854569, 21692972], '802001': [28259199], '957176': [55307683, 32859902, 31430656], '1326627': [55307683]})
+29.06.26 21:36:13 | DEBUG | test_event_store:test_stats:124 - get stats - url = http://localhost:8001/stats
+29.06.26 21:36:13 | DEBUG | test_event_store:test_stats:130 - response status = 200, data = {"user_event_add_count":21,"user_id_query_count":1,"all_store_query_count":1}
+29.06.26 21:36:13 | DEBUG | test_event_store:test_stats:133 - successfully got stats

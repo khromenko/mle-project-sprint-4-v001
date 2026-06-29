@@ -1,5 +1,6 @@
 from pytest import Parser, FixtureRequest, fixture, skip, mark
 import requests
+import random
 from random import randint, choice
 from app import logging_config
 from fastapi import status
@@ -19,15 +20,17 @@ log = logging_config.create_logger(__name__)
 
 recsys_url='http://localhost:8000/get_recommendations'
 
+# random 10-sample from user personal recs dataset
+sample_user_ids = [1326627, 1202008, 22070, 1170563, 35087, 1030306, 358718, 1351299, 802001, 957176]
+
 def setup_module():
-    pass
+    random.seed(14)    
 
 def _genereate_user_params():
-    sample_user_ids = [1326627, 1202008, 22070, 1170563, 35087, 1030306, 358718, 1351299, 802001, 957176]
     params = {
         'user_id': choice(sample_user_ids), #randint(0, 1320000), 
         'recent_n': 3,
-        'top_k': 10 #randint(0, 10)
+        'top_k': 10 
     }    
     return params
     

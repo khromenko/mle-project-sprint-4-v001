@@ -1,0 +1,21 @@
+29.06.26 21:36:23 | DEBUG | test_service:test_online:69 - online: params = {'user_id': 1202008, 'recent_n': 3, 'top_k': 10}, url = http://localhost:8000/get_recommendations_online
+29.06.26 21:36:23 | DEBUG | test_service:test_online:75 - response status = 200, data = {"recs":[80091826,55307683,28259199,80091848,64972604,80634875,890111,4638274,24986327,38931245]}
+29.06.26 21:36:23 | DEBUG | test_service:test_online:78 - successfully got recs for user (count = 10)
+29.06.26 21:36:23 | DEBUG | test_service:test_stats:115 - get stats - url = http://localhost:8000/stats
+29.06.26 21:36:23 | DEBUG | test_service:test_stats:121 - response status = 200, data = {"online_recs_events_query_success_count":1,"online_recs_similar_query_success_count":3}
+29.06.26 21:36:23 | DEBUG | test_service:test_stats:124 - successfully got stats - metrics are: 
+ {'online_recs_events_query_success_count': 1, 'online_recs_similar_query_success_count': 3}
+29.06.26 21:36:24 | DEBUG | test_service:test_offline:43 - offline: params = {'user_id': 1202008, 'recent_n': 3, 'top_k': 10}, url = http://localhost:8000/get_recommendations_offline
+29.06.26 21:36:24 | DEBUG | test_service:test_offline:49 - response status = 200, data = {"recs":[56920241,62352387,49961817,54798445,50834580,58515506,51516485,57921154,41883693,53357546]}
+29.06.26 21:36:24 | DEBUG | test_service:test_offline:52 - successfully got recs for user = [56920241, 62352387, 49961817, 54798445, 50834580, 58515506, 51516485, 57921154, 41883693, 53357546])
+29.06.26 21:36:24 | DEBUG | test_service:test_stats:115 - get stats - url = http://localhost:8000/stats
+29.06.26 21:36:24 | DEBUG | test_service:test_stats:121 - response status = 200, data = {"online_recs_events_query_success_count":1,"online_recs_similar_query_success_count":3,"offline_recs_success_query_count":1,"offline_recs_model_success_count":1}
+29.06.26 21:36:24 | DEBUG | test_service:test_stats:124 - successfully got stats - metrics are: 
+ {'online_recs_events_query_success_count': 1, 'online_recs_similar_query_success_count': 3, 'offline_recs_success_query_count': 1, 'offline_recs_model_success_count': 1}
+29.06.26 21:36:25 | DEBUG | test_service:test_full:92 - full: params = {'user_id': 1202008, 'recent_n': 3, 'top_k': 10}, url = http://localhost:8000/get_recommendations_full
+29.06.26 21:36:25 | DEBUG | test_service:test_full:98 - response status = 200, data = {"recs":[80091826,56920241,55307683,62352387,28259199,49961817,80091848,54798445,64972604,50834580]}
+29.06.26 21:36:25 | DEBUG | test_service:test_full:101 - successfully got recs for user = [80091826, 56920241, 55307683, 62352387, 28259199, 49961817, 80091848, 54798445, 64972604, 50834580])
+29.06.26 21:36:25 | DEBUG | test_service:test_stats:115 - get stats - url = http://localhost:8000/stats
+29.06.26 21:36:25 | DEBUG | test_service:test_stats:121 - response status = 200, data = {"online_recs_events_query_success_count":2,"online_recs_similar_query_success_count":6,"offline_recs_success_query_count":2,"full_recs_success_query_count":1,"offline_recs_model_success_count":2}
+29.06.26 21:36:25 | DEBUG | test_service:test_stats:124 - successfully got stats - metrics are: 
+ {'online_recs_events_query_success_count': 2, 'online_recs_similar_query_success_count': 6, 'offline_recs_success_query_count': 2, 'full_recs_success_query_count': 1, 'offline_recs_model_success_count': 2}

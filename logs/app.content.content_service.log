@@ -1,0 +1,2 @@
+29.06.26 21:36:09 | INFO | app.content.content_service:lifespan_listener:27 - app starting (<fastapi.applications.FastAPI object at 0x7fc98f37a560>)
+29.06.26 21:36:09 | DEBUG | app.content.content_service:lifespan_listener:40 - model is loaded

@@ -1,0 +1,24 @@
+29.06.26 21:36:09 | DEBUG | app.content.sim_model_handler:__init__:18 - create SimModelHandler
+29.06.26 21:36:09 | INFO | app.content.sim_model_handler:init_model:29 - data_path = data/recsys/similar.parquet
+29.06.26 21:36:09 | DEBUG | app.content.sim_model_handler:init_model:35 - sim items data loaded: 
+           sim_item_id     score
+item_id                         
+26                  26  1.000000
+26            20111365  0.841317
+26            27419607  0.826416
+26            26343802  0.820421
+26             1293112  0.803062
+...                ...       ...
+101521819     92503045  0.849149
+101521819     97820398  0.848006
+101521819    101084646  0.844078
+101521819     94735558  0.837228
+101521819     97241633  0.830391
+
+[9326640 rows x 2 columns]
+29.06.26 21:36:23 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 80091826, top_k = 100
+29.06.26 21:36:23 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 55307683, top_k = 100
+29.06.26 21:36:23 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 28259199, top_k = 100
+29.06.26 21:36:25 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 80091826, top_k = 100
+29.06.26 21:36:25 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 55307683, top_k = 100
+29.06.26 21:36:25 | DEBUG | app.content.sim_model_handler:get_similar_items:43 - get similar items for item_id = 28259199, top_k = 100
