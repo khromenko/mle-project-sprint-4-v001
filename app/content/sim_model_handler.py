@@ -42,13 +42,19 @@ class SimModelHandler():
     def get_similar_items(self, item_id: int, top_k: int = 100):
         log.debug(f'get similar items for item_id = {item_id}, top_k = {top_k}')
 
-        items = []
+        items = {"item_id": [], "score": []}
         if self.similar_items is not None:
             try:
-                items = self.similar_items.loc[item_id]['sim_item_id'][:top_k].tolist()
+                items = self.similar_items \
+                    .loc[item_id] \
+                    .head(top_k) \
+                    .rename(columns={'sim_item_id': 'item_id'}) \
+                    .to_dict(orient='list')
+                
+                items["score"] = [round(x, 5) for x in items["score"]]                
+
             except KeyError as e:
-                log.warning(f'alert - there is no similar items for item = {item_id}')
-                items = []
+                log.warning(f'alert - there is no similar items for item = {item_id}')                
         else:
             log.warning(f'alert - sim items data is not loaded')
                 

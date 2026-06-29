@@ -29,30 +29,6 @@ def _genereate_user_params():
     }    
     return params
     
-def test_online(test_case: str):
-    if test_case != 'online': skip('skip not "online" test case')
-
-    url = f'{recsys_url}_online'
-    params = _genereate_user_params()
-    
-    log.debug(f'online: params = {params}, url = {url}')
-    
-    try:
-        response = requests.post(url=url, params=params)
-        status = response.status_code
-        
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
-        
-        if requests.codes.ok == status:
-            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
-        
-        else:
-            log.error('response reason = %s', response.reason)
-
-    except requests.exceptions.ConnectionError as e:
-        log.error('fail to connect to running service - %s', e)
-
 def test_offline(test_case: str):
     if test_case != 'offline': skip('skip not "offline" test case')
 
@@ -74,6 +50,30 @@ def test_offline(test_case: str):
         elif status.HTTP_204_NO_CONTENT == resp_status:
             log.warning('alert - no content for user')
 
+        else:
+            log.error('response reason = %s', response.reason)
+
+    except requests.exceptions.ConnectionError as e:
+        log.error('fail to connect to running service - %s', e)
+
+def test_online(test_case: str):
+    if test_case != 'online': skip('skip not "online" test case')
+
+    url = f'{recsys_url}_online'
+    params = _genereate_user_params()
+    
+    log.debug(f'online: params = {params}, url = {url}')
+    
+    try:
+        response = requests.post(url=url, params=params)
+        status = response.status_code
+        
+        log.debug('response status = %s', response.status_code)
+        log.debug('response data = %s', response.text)
+        
+        if requests.codes.ok == status:
+            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
+        
         else:
             log.error('response reason = %s', response.reason)
 

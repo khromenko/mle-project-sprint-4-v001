@@ -76,7 +76,7 @@ def _exec_get_sim_items(params):
         log.debug('response data = %s', response.text)
         
         if status.HTTP_200_OK == resp_status:
-            log.debug(f'successfully got sim items for item ({params["item_id"]}) = {response.json()["items"]})')            
+            log.debug(f'successfully got sim items for item ({params["item_id"]}) = {response.json()})')            
 
         elif status.HTTP_204_NO_CONTENT == resp_status:
             log.warning('alert - no content for item')

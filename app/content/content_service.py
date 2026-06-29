@@ -55,12 +55,12 @@ def get_similar_items(item_id: int, model: SimModelHandler = Depends(get_ml_mode
     sim_items = model.get_similar_items(item_id)
 
     # it is strange if there is no similar items - so mark this response as a special 204 code
-    if len(sim_items) == 0:
+    if len(sim_items['item_id']) == 0:
         _add_stat_counter('empty_sim_items_query_count')
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     _add_stat_counter('success_sim_items_query_count')
-    return JSONResponse({'items': sim_items}, status_code=status.HTTP_200_OK)
+    return JSONResponse(sim_items, status_code=status.HTTP_200_OK)
     
 @app.get('/stats')
 def get_stats():
