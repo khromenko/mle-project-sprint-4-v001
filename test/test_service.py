@@ -21,12 +21,19 @@ recsys_url='http://localhost:8000/get_recommendations'
 
 def setup_module():
     pass
+
+def _genereate_user_params():
+    params = {
+        'user_id': randint(0, 1320000), 
+        'top_k': randint(0, 100)
+    }    
+    return params
     
 def test_online(test_case: str):
     if test_case != 'online': skip('skip not "online" test case')
 
     url = f'{recsys_url}_online'
-    params = genereate_user_params()
+    params = _genereate_user_params()
     
     log.debug(f'online: params = {params}, url = {url}')
     
@@ -46,19 +53,11 @@ def test_online(test_case: str):
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
 
-def genereate_user_params():
-    params = {
-        'user_id': randint(0, 1320000), 
-        'top_k': randint(0, 100)
-    }    
-    return params
-
-
 def test_offline(test_case: str):
     if test_case != 'offline': skip('skip not "offline" test case')
 
     url = f'{recsys_url}_offline'
-    params = genereate_user_params()
+    params = _genereate_user_params()
     
     log.debug(f'offline: params = {params}, url = {url}')
 
@@ -83,7 +82,7 @@ def test_full(test_case: str):
     if test_case != 'full': skip('skip not "full" test case')
 
     url = f'{recsys_url}_full'
-    params = genereate_user_params()
+    params = _genereate_user_params()
     
     log.debug(f'full: params = {params}, url = {url}')
 
@@ -101,8 +100,3 @@ def test_full(test_case: str):
 
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
-
-
-
-
-

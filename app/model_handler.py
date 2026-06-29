@@ -5,7 +5,7 @@ import random
 import pandas as pd
 
 '''
-ML-model handler for offline recomendations
+ML-model handler for offline recommendations
 Usage:
     - init_model() to load recomendations data
     - get_recommendations_offline() - to get recomendations for user

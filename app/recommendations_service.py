@@ -10,11 +10,10 @@ from app.model_handler import ModelHandler
 '''
 Main recomendations service application
 
-```bash
- uvicorn app.recommendations_service:app --port 8000 # --reload --reload-dir app
- ```
+run app:
+    - uvicorn app.recommendations_service:app --port 8000 # --reload --reload-dir app
 
- '''
+'''
 
 logging_config.root_config()
 log = logging_config.create_logger(__name__)
