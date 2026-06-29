@@ -61,62 +61,60 @@ def get_recommendations_offline(user_id: int, top_k: int = 10, model: ModelHandl
 
     log.debug(f'get offline recs for user_id {user_id}, top_k = {top_k}') 
 
-    recs = model.get_recommendations_offline(user_id, top_k)
+    recs = _query_offline_recs(user_id, top_k, model)
 
     if len(recs) == 0:
-        _add_stat_counter('offline_recs_empty_query_count')
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     else:
-        _add_stat_counter('offline_recs_success_query_count')
         return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
 
 @app.post('/get_recommendations_online')
 def get_recommendations_online(user_id: int, top_k: int = 10):
     '''
-    Online recommendations for user based on user recent history and content service for similar items.
-    The result is the top_k of the merged list of 3 recent items top_k similar items sorted by by their score
-
+    Online recommendations for user based on user's recent history and content service for similar items.
+    The result is the top_k of the merged list of 3 most recent item's top_k similar items sorted by by their score
     '''
+
     log.debug(f'get online recs for user_id {user_id}, top_k = {top_k}') 
 
-    # 1 - get user recent history
-    history_items = _query_user_event_history(user_id, top_k)
+    recs = _process_online_recs(user_id, top_k)
 
-    # 2 - get similar items via content service if there is user history
-    if len(history_items) == 0:
+    if len(recs) == 0:
         return Response(status_code=status.HTTP_204_NO_CONTENT)
-    
     else:
-        sim_items_result = pd.DataFrame(columns=['item_id', 'score'])
-
-        # collect sim items for 3 recent
-        for item_id in history_items[:3]:
-            sim_items = _query_similar_items(item_id, top_k)
-            sim_items_result = pd.concat([sim_items_result, pd.DataFrame(sim_items)])
-        
-        # take sorted top_k of all items
-        sim_items_result = sim_items_result \
-            .sort_values(by='score', ascending=False) \
-            .reset_index(drop=True) \
-            .drop_duplicates(subset='item_id') \
-            .head(top_k)
-        recs = sim_items_result['item_id'].to_list()
-        
         return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
 
 @app.post('/get_recommendations_full')
 def get_recommendations_full(user_id: int, top_k: int = 10, model: ModelHandler = Depends(get_ml_model)):
+    '''
+    Offline + online recomendations combo.
+    If there is online recommendations for user they are mixed with offline recommendations on a even-odd order
+    '''
     log.debug(f'get full recs for user_id {user_id}, top_k = {top_k}') 
 
-    recs = model.get_recommendations_offline(user_id, top_k)
+    offline_recs = _query_offline_recs(user_id, top_k, model)
+    online_recs = _process_online_recs(user_id, top_k)
+    
+    result_recs = []
+
+    # arrange final list by pairs of online + offline
+    for i in range(top_k):
+        if i < len(online_recs):
+            result_recs.append(online_recs[i])
+        
+        if i < len(offline_recs):
+            result_recs.append(offline_recs[i])
+    
+    # trim if it is more than top_k
+    result_recs = result_recs[:top_k]
 
     # it is strange if there is no recs - so mark this response as a special 204 code
-    if len(recs) == 0:
+    if len(result_recs) == 0:
         _add_stat_counter('full_recs_empty_query_count')
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     else:
         _add_stat_counter('full_recs_success_query_count')
-        return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
+        return JSONResponse({'recs': result_recs}, status_code=status.HTTP_200_OK)
 
 
 @app.get('/stats')
@@ -125,6 +123,27 @@ def get_stats():
     return JSONResponse(response)
 
 # ------------------
+
+def _query_offline_recs(user_id, top_k, model):
+    recs = model.get_recommendations_offline(user_id, top_k)
+    if len(recs) == 0:
+        _add_stat_counter('offline_recs_empty_query_count')
+    else:
+        _add_stat_counter('offline_recs_success_query_count')
+    return recs
+
+def _process_online_recs(user_id: int, top_k: int):
+    recs = []
+
+    # 1 - get user recent history
+    history_items = _query_user_event_history(user_id, top_k)
+    
+    # 2 - get similar items via content service if there is user history
+    if len(history_items) != 0:
+        recs = _merge_history_items_recs(top_k, history_items)
+    
+    return recs
+
 
 def _query_user_event_history(user_id, top_k):
     event_store_url='http://localhost:8001/event' 
@@ -163,6 +182,23 @@ def _query_user_event_history(user_id, top_k):
         _add_stat_counter('online_recs_events_query_error_count')
     
     return history_items
+
+def _merge_history_items_recs(top_k, history_items):
+    sim_items_result = pd.DataFrame(columns=['item_id', 'score'])
+
+        # collect sim items for 3 recent
+    for item_id in history_items[:3]:
+        sim_items = _query_similar_items(item_id, top_k)
+        sim_items_result = pd.concat([sim_items_result, pd.DataFrame(sim_items)])
+        
+        # take sorted top_k of all items
+    sim_items_result = sim_items_result \
+            .sort_values(by='score', ascending=False) \
+            .reset_index(drop=True) \
+            .drop_duplicates(subset='item_id') \
+            .head(top_k)
+    recs = sim_items_result['item_id'].to_list()
+    return recs
 
 def _query_similar_items(item_id, top_k):
     log.debug(f'get similar items for items_id - {item_id}, top_k = {top_k}') 
