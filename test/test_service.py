@@ -26,6 +26,7 @@ def _genereate_user_params():
     sample_user_ids = [1326627, 1202008, 22070, 1170563, 35087, 1030306, 358718, 1351299, 802001, 957176]
     params = {
         'user_id': choice(sample_user_ids), #randint(0, 1320000), 
+        'recent_n': 3,
         'top_k': 10 #randint(0, 10)
     }    
     return params
@@ -42,9 +43,8 @@ def test_offline(test_case: str):
         response = requests.post(url=url, params=params)
         resp_status = response.status_code
 
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
-        
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
+                
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got recs for user = {response.json()["recs"]})')            
 
@@ -69,8 +69,7 @@ def test_online(test_case: str):
         response = requests.post(url=url, params=params)
         status = response.status_code
         
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if requests.codes.ok == status:
             log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
@@ -93,8 +92,7 @@ def test_full(test_case: str):
         response = requests.post(url=url, params=params)
         resp_status = response.status_code
 
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got recs for user = {response.json()["recs"]})')            
@@ -117,8 +115,7 @@ def test_stats():
         response = requests.get(url=url)
         resp_status = response.status_code
 
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got stats - metrics are: \n {response.json()}')

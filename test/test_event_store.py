@@ -1,10 +1,7 @@
-from pytest import Parser, FixtureRequest, fixture, skip, mark
 import requests
 from random import randint, choice
 from app import logging_config
-from app.events.user_event_service import UserEventPayload
 from fastapi import status
-from fastapi.testclient import TestClient
 
 '''
 Test cases for user event store service
@@ -43,11 +40,10 @@ def test_add_user_event():
         response = requests.post(url=url, json=payload)
         resp_status = response.status_code
         
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
-            log.debug(f'successfully got events - item ids = {list(response.json()["items"])})')            
+            log.debug(f'successfully add event - user id = {payload["user_id"]} - result item ids = {list(response.json()["items"])}')            
         
         else:
             log.debug('response reason = %s', response.reason)
@@ -60,7 +56,8 @@ def test_get_user_events():
     
     user_id = choice(sample_user_ids)
     params = {
-        'user_id': user_id
+        'user_id': user_id,
+        'recent_n': 3
     }
     
     log.debug(f'get user events - url = {url}, params = {params}')
@@ -69,11 +66,10 @@ def test_get_user_events():
         response = requests.get(url=url, params=params)
         resp_status = response.status_code
         
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
-            log.debug(f'successfully got user events - item ids = {response.json()["items"]})')            
+            log.debug(f'successfully got user events - user id = {params["user_id"]} - item ids = {response.json()["items"]})')            
         
         else:
             log.error('response reason = %s', response.reason)
@@ -81,7 +77,7 @@ def test_get_user_events():
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
 
-def test_generate_add_user_event_20_times():
+def test_add_user_event_20_times():
     for i in range(0,20):
         url = f'{event_store_url}/event'
         payload = _genereate_user_event()
@@ -90,7 +86,7 @@ def test_generate_add_user_event_20_times():
             resp_status = response.status_code
             
             if status.HTTP_200_OK == resp_status:
-                log.debug(f'successfully got events - item ids = {list(response.json()["items"])})')            
+                log.debug(f'{i+1}: successfully added event: user_id = {payload["user_id"]} - result item ids = {list(response.json()["items"])})')            
             
             else:
                 log.debug('response reason = %s', response.reason)
@@ -107,8 +103,7 @@ def test_get_store():
         response = requests.get(url=url)
         resp_status = response.status_code
         
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got events store = {response.json()})')            
@@ -128,8 +123,7 @@ def test_stats():
         response = requests.get(url=url)
         resp_status = response.status_code
 
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got stats')

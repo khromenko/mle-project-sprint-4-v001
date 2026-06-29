@@ -5,7 +5,6 @@ User events store utilitys
 '''
 
 log = logging_config.create_logger(__name__)
-
 class UserEvent:
     user_id: int
     item_id: int
@@ -16,11 +15,12 @@ class UserEvent:
 
 class UserEventStore:
     '''
-    Online store for user-2-item interaction events
+    Online store for user-2-item interaction events.
+    The most recent events are added to the head of the list
     '''
     def __init__(self):
         self.event_store = {}
-        pass    
+        log.debug('User event store init done')
 
     def put(self, event: UserEvent):
         '''
@@ -41,13 +41,13 @@ class UserEventStore:
         
         self.event_store[user_id] = user_items
 
-        log.debug(f'event added: user ({user_id}) items = {user_items}')
+        log.debug(f'event added: user_id = {user_id}, items = {user_items}')
 
-        return user_items
+        return user_items[:10]
 
-    def get(self, user_id: int):
+    def get(self, user_id: int, recent_n: int = 3):
         user_items = self.event_store[user_id] if user_id in self.event_store.keys() else []
-        return user_items
+        return user_items[0:recent_n]
     
     def get_store(self):
         return self.event_store

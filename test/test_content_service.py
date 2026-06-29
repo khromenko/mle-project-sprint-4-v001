@@ -50,8 +50,7 @@ def test_stats():
         response = requests.get(url=url)
         resp_status = response.status_code
 
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got stats')
@@ -72,8 +71,7 @@ def _exec_get_sim_items(params):
         response = requests.get(url=url, params=params)
         resp_status = response.status_code
 
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             log.debug(f'successfully got sim items for item ({params["item_id"]}) = {response.json()})')            

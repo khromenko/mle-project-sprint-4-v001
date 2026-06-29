@@ -18,7 +18,9 @@ log = logging_config.create_logger(__name__)
 app = FastAPI(title='User event store service')
 event_store = UserEventStore()
 stats = {}
-    
+
+log.debug('Event store service started')
+
 class UserEventPayload(BaseModel):
     user_id: int
     item_id: int
@@ -35,8 +37,8 @@ def add(event_data: UserEventPayload):
     return JSONResponse({'items': items}, status_code=status.HTTP_200_OK)
      
 @app.get('/event')
-def get(user_id: int):
-    items = event_store.get(user_id)
+def get(user_id: int, recent_n: int):
+    items = event_store.get(user_id, recent_n)
 
     _add_stat_counter('user_id_query_count')
 

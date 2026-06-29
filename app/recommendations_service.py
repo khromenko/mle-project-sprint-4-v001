@@ -69,7 +69,7 @@ def get_recommendations_offline(user_id: int, top_k: int = 10, model: ModelHandl
         return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
 
 @app.post('/get_recommendations_online')
-def get_recommendations_online(user_id: int, top_k: int = 10):
+def get_recommendations_online(user_id: int, recent_n: int = 3, top_k: int = 10):
     '''
     Online recommendations for user based on user's recent history and content service for similar items.
     The result is the top_k of the merged list of 3 most recent item's top_k similar items sorted by by their score
@@ -77,7 +77,7 @@ def get_recommendations_online(user_id: int, top_k: int = 10):
 
     log.debug(f'get online recs for user_id {user_id}, top_k = {top_k}') 
 
-    recs = _process_online_recs(user_id, top_k)
+    recs = _process_online_recs(user_id, recent_n, top_k)
 
     if len(recs) == 0:
         return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -85,7 +85,7 @@ def get_recommendations_online(user_id: int, top_k: int = 10):
         return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
 
 @app.post('/get_recommendations_full')
-def get_recommendations_full(user_id: int, top_k: int = 10, model: ModelHandler = Depends(get_ml_model)):
+def get_recommendations_full(user_id: int, recent_n: int = 3, top_k: int = 10, model: ModelHandler = Depends(get_ml_model)):
     '''
     Offline + online recomendations combo.
     If there is online recommendations for user they are mixed with offline recommendations on a even-odd order
@@ -93,7 +93,7 @@ def get_recommendations_full(user_id: int, top_k: int = 10, model: ModelHandler 
     log.debug(f'get full recs for user_id {user_id}, top_k = {top_k}') 
 
     offline_recs = _query_offline_recs(user_id, top_k, model)
-    online_recs = _process_online_recs(user_id, top_k)
+    online_recs = _process_online_recs(user_id, recent_n, top_k)
     
     result_recs = []
 
@@ -132,45 +132,44 @@ def _query_offline_recs(user_id, top_k, model):
         _add_stat_counter('offline_recs_success_query_count')
     return recs
 
-def _process_online_recs(user_id: int, top_k: int):
+def _process_online_recs(user_id: int, recent_n: int, top_k: int):
     recs = []
 
     # 1 - get user recent history
-    history_items = _query_user_event_history(user_id, top_k)
+    history_items = _query_user_event_history(user_id, recent_n)
     
     # 2 - get similar items via content service if there is user history
     if len(history_items) != 0:
-        recs = _merge_history_items_recs(top_k, history_items)
+        recs = _merge_history_items_recs(history_items, top_k)
     
     return recs
 
 
-def _query_user_event_history(user_id, top_k):
+def _query_user_event_history(user_id: int, recent_n: int):
     event_store_url='http://localhost:8001/event' 
     params = {
-        'user_id': user_id
+        'user_id': user_id,
+        'recent_n': recent_n
     }    
     log.debug(f'get user events - url = {event_store_url}, params = {params}')    
 
     history_items = []
 
-    # 1 - get user recent history
     try:
         response = requests.get(url=event_store_url, params=params)
         resp_status = response.status_code
         
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             history_items = response.json()["items"]
 
             if len(history_items) == 0:
-                log.debug(f'successfully got empty user events (item ids = {history_items})')
+                log.debug(f'successfully got empty user events - user_id = {user_id} - (item ids = {history_items})')
                 _add_stat_counter('online_recs_events_query_empty_count')
                 
             else:
-                log.debug(f'successfully got user events - item ids = {history_items}')
+                log.debug(f'successfully got user events - user_id = {user_id} - item ids = {history_items}')
                 _add_stat_counter('online_recs_events_query_success_count')
 
         else:
@@ -183,15 +182,19 @@ def _query_user_event_history(user_id, top_k):
     
     return history_items
 
-def _merge_history_items_recs(top_k, history_items):
-    sim_items_result = pd.DataFrame(columns=['item_id', 'score'])
+def _merge_history_items_recs(history_items, top_k):
+    sim_items_result = None
 
-        # collect sim items for 3 recent
-    for item_id in history_items[:3]:
+    # collect sim items for recent items
+    for item_id in history_items:
         sim_items = _query_similar_items(item_id, top_k)
-        sim_items_result = pd.concat([sim_items_result, pd.DataFrame(sim_items)])
+
+        if sim_items_result is None:
+            sim_items_result = pd.DataFrame(sim_items)
+        else:
+            sim_items_result = pd.concat([sim_items_result, pd.DataFrame(sim_items)])
         
-        # take sorted top_k of all items
+    # take sorted top_k of all items
     sim_items_result = sim_items_result \
             .sort_values(by='score', ascending=False) \
             .reset_index(drop=True) \
@@ -216,8 +219,7 @@ def _query_similar_items(item_id, top_k):
         response = requests.get(url=event_store_url, params=params)
         resp_status = response.status_code
         
-        log.debug('response status = %s', response.status_code)
-        log.debug('response data = %s', response.text)
+        log.debug(f'response status = {response.status_code}, data = {response.text}')
         
         if status.HTTP_200_OK == resp_status:
             similar_items = response.json()
