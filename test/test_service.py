@@ -1,6 +1,6 @@
 from pytest import Parser, FixtureRequest, fixture, skip, mark
 import requests
-from random import randint
+from random import randint, choice
 from app import logging_config
 from fastapi import status
 from fastapi.testclient import TestClient
@@ -23,9 +23,10 @@ def setup_module():
     pass
 
 def _genereate_user_params():
+    sample_user_ids = [1326627, 1202008, 22070, 1170563, 35087, 1030306, 358718, 1351299, 802001, 957176]
     params = {
-        'user_id': randint(0, 1320000), 
-        'top_k': randint(0, 100)
+        'user_id': choice(sample_user_ids), #randint(0, 1320000), 
+        'top_k': 10 #randint(0, 10)
     }    
     return params
     

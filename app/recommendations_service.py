@@ -54,7 +54,7 @@ app = FastAPI(title='Recomendations service', lifespan=lifespan_listener)
 log.info('FastApi app started (%s)', app)
 
 @app.post('/get_recommendations_offline')
-def get_recommendations_offline(user_id: int, top_k: int = 100, model: ModelHandler = Depends(get_ml_model)):
+def get_recommendations_offline(user_id: int, top_k: int = 10, model: ModelHandler = Depends(get_ml_model)):
     '''
     Offline recommendations for user prepared by ml-model
     '''
@@ -70,30 +70,15 @@ def get_recommendations_offline(user_id: int, top_k: int = 100, model: ModelHand
         _add_stat_counter('offline_recs_success_query_count')
         return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
 
-@app.post('/get_recommendations_full')
-def get_recommendations_full(user_id: int, top_k: int = 100, model: ModelHandler = Depends(get_ml_model)):
-    log.debug(f'get full recs for user_id {user_id}, top_k = {top_k}') 
-
-    recs = model.get_recommendations_offline(user_id, top_k)
-
-    # it is strange if there is no recs - so mark this response as a special 204 code
-    if len(recs) == 0:
-        _add_stat_counter('full_recs_empty_query_count')
-        return Response(status_code=status.HTTP_204_NO_CONTENT)
-    else:
-        _add_stat_counter('full_recs_success_query_count')
-        return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
-
-
 @app.post('/get_recommendations_online')
-def get_recommendations_online(user_id: int, top_k: int = 100):
+def get_recommendations_online(user_id: int, top_k: int = 10):
     '''
     Online recommendations for user based on user recent history and content service for similar items.
     The result is the top_k of the merged list of 3 recent items top_k similar items sorted by by their score
 
     '''
     log.debug(f'get online recs for user_id {user_id}, top_k = {top_k}') 
-    
+
     # 1 - get user recent history
     history_items = _query_user_event_history(user_id, top_k)
 
@@ -117,6 +102,20 @@ def get_recommendations_online(user_id: int, top_k: int = 100):
             .head(top_k)
         recs = sim_items_result['item_id'].to_list()
         
+        return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
+
+@app.post('/get_recommendations_full')
+def get_recommendations_full(user_id: int, top_k: int = 10, model: ModelHandler = Depends(get_ml_model)):
+    log.debug(f'get full recs for user_id {user_id}, top_k = {top_k}') 
+
+    recs = model.get_recommendations_offline(user_id, top_k)
+
+    # it is strange if there is no recs - so mark this response as a special 204 code
+    if len(recs) == 0:
+        _add_stat_counter('full_recs_empty_query_count')
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    else:
+        _add_stat_counter('full_recs_success_query_count')
         return JSONResponse({'recs': recs}, status_code=status.HTTP_200_OK)
 
 

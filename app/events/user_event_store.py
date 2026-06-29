@@ -32,11 +32,16 @@ class UserEventStore:
         log.debug(f'put event - user_id = {user_id}, item_id = {item_id}')
         
         user_items = self.event_store[user_id] if user_id in self.event_store.keys() else []
+
+        # if the same item already exists replace it to be at the begining
+        if user_items.count(item_id) > 0:
+            user_items.remove(item_id)
+        
         user_items.insert(0, item_id)
         
         self.event_store[user_id] = user_items
 
-        log.debug(f'user ({user_id}) items = {user_items}')
+        log.debug(f'event added: user ({user_id}) items = {user_items}')
 
         return user_items
 
