@@ -41,7 +41,8 @@ class UserEventStore:
         return user_items
 
     def get(self, user_id: int):
-        return self.event_store[user_id]
+        user_items = self.event_store[user_id] if user_id in self.event_store.keys() else []
+        return user_items
     
     def get_store(self):
         return self.event_store

@@ -5,15 +5,14 @@ import random
 import pandas as pd
 
 '''
-ML-model handler for offline recommendations
+ML-model handler for offline recommendations.
+
 Usage:
     - init_model() to load recomendations data
     - get_recommendations_offline() - to get recomendations for user
 '''
 
-
-logging_config.create_logger(__name__)
-log = logging.getLogger(__name__)
+log = logging_config.create_logger(__name__)
 
 class ModelHandler():
     def __init__(self):
@@ -21,6 +20,11 @@ class ModelHandler():
 
         self.user_recs = None
         self.common_recs = None
+        self.stats = {}
+
+    def _add_stat_counter(self, name):
+        counter = self.stats[name] if name in self.stats.keys() else 0
+        self.stats[name] = counter + 1
 
     def _init_user_recs(self, user_path, columns):
         try:
@@ -63,13 +67,17 @@ class ModelHandler():
         if self.user_recs is not None:
             try:
                 recs = self.user_recs.loc[user_id]['item_id'][:top_k].tolist()
+                self._add_stat_counter('offline_recs_model_success_count')
             except KeyError as e:
                 log.info(f'there is no personal recs for user = {user_id} - fallback to common recs')
+                self._add_stat_counter('offline_recs_model_empty_user_count')
                 recs = []
             except Exception as e:
+                self._add_stat_counter('offline_recs_model_error_user_count')
                 log.error('error getting user personal recs - fallback to common recs', exc_info=True)
                 recs = []
         else:
+            self._add_stat_counter('offline_recs_model_fail_user_count')
             log.warning(f'alert - user recs is not loaded')
         
         # no personal recs was found - use common recs for this user
@@ -77,12 +85,16 @@ class ModelHandler():
             if self.common_recs is not None:
                 try:
                     recs = self.common_recs[:top_k].index.tolist()
+                    self._add_stat_counter('offline_recs_model_success_common_count')
                 except Exception as e:
                     log.error('error getting common recs', exc_info=True)
+                    self._add_stat_counter('offline_recs_model_error_common_count')
                     recs = []
             else:
+                self._add_stat_counter('offline_recs_model_fail_common_count')
                 log.warning(f'alert - common recs is not loaded')
         
         return recs
     
-
+    def get_stats(self):
+        return self.stats

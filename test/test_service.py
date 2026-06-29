@@ -9,10 +9,10 @@ from fastapi.testclient import TestClient
 Test cases for recommendations service application
 
 start main app
-    $: uvicorn app.recommendations_service:app --port 8000
+    uvicorn app.recommendations_service:app --port 8000
 
 run test
-    $ python -m pytest test/test_service.py --case=(offline|online|full) -s
+    python -m pytest test/test_service.py --case=(offline|online|full) -s
 '''
 
 log = logging_config.create_logger(__name__)
@@ -48,7 +48,7 @@ def test_online(test_case: str):
             log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
         
         else:
-            log.debug('response reason = %s', response.reason)
+            log.error('response reason = %s', response.reason)
 
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
@@ -69,11 +69,13 @@ def test_offline(test_case: str):
         log.debug('response data = %s', response.text)
         
         if status.HTTP_200_OK == resp_status:
-            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
+            log.debug(f'successfully got recs for user = {response.json()["recs"]})')            
+
         elif status.HTTP_204_NO_CONTENT == resp_status:
             log.warning('alert - no content for user')
+
         else:
-            log.debug('response reason = %s', response.reason)
+            log.error('response reason = %s', response.reason)
 
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
@@ -88,15 +90,40 @@ def test_full(test_case: str):
 
     try:
         response = requests.post(url=url, params=params)
-        status = response.status_code
+        resp_status = response.status_code
 
         log.debug('response status = %s', response.status_code)
         log.debug('response data = %s', response.text)
         
-        if requests.codes.ok == status:
-            log.debug(f'successfully got recs for user (count = {len(response.json()["recs"])})')            
+        if status.HTTP_200_OK == resp_status:
+            log.debug(f'successfully got recs for user = {response.json()["recs"]})')            
+
+        elif status.HTTP_204_NO_CONTENT == resp_status:
+            log.warning('alert - no content for user')
+
         else:
-            log.debug('response reason = %s', response.reason)
+            log.error('response reason = %s', response.reason)
 
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
+
+def test_stats():
+    url = 'http://localhost:8000/stats'
+
+    log.debug(f'get stats - url = {url}')
+    
+    try:
+        response = requests.get(url=url)
+        resp_status = response.status_code
+
+        log.debug('response status = %s', response.status_code)
+        log.debug('response data = %s', response.text)
+        
+        if status.HTTP_200_OK == resp_status:
+            log.debug(f'successfully got stats - metrics are: \n {response.json()}')
+
+        else:
+            log.error('response reason = %s', response.reason)
+
+    except requests.exceptions.ConnectionError as e:
+        log.error('fail to connect to running service - %s', e)        

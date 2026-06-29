@@ -82,12 +82,28 @@ jupyter lab --ip=0.0.0.0 --no-browser
 - Перед запуском необходимо прописать пути к подготовленным на Этапе 3 файлам модели в .env файле
     - ML_MODEL_USER_DATA_PATH = data/recsys/recommendations.parquet
     - ML_MODEL_COMMON_DATA_PATH = data/recsys/top_popular.parquet
+    - ML_MODEL_SIM_DATA_PATH = data/recsys/similar.parquet
 
-Запуск сервиса (из корневой директории проекта):
+Все команды выполняются из корневой директории проекта (и активированной venv).
 
-``` bash
-uvicorn app.recommendations_service:app --port 8000 # --reload --reload-dir app
-```
+- Запуск основного сервиса рекомендаций:
+
+    ``` bash
+    uvicorn app.recommendations_service:app --port 8000
+    ```
+
+- Запуск сервиса сбора событий пользователя (Event store service)
+
+    ``` bash
+    uvicorn app.events.user_event_service:app --port 8001
+    ```
+
+- Запуск сервиса управления контентом для получения похожих объектов (Content service)
+
+    ``` bash
+    uvicorn app.content.content_service:app --port 8002
+    ```    
+
 
 # Инструкции для тестирования сервиса
 
@@ -96,8 +112,13 @@ uvicorn app.recommendations_service:app --port 8000 # --reload --reload-dir app
     ```bash
     pip install pytest
     ```
+- Настройки для тестирования находятся в `test\conftest.py` (согласно соглашению pytest)
+
+Все команды выполняются из корневой директории проекта (и активированной venv).
+
+## Тестирование основного сервиса рекомендаций
+
 - Код для тестирования сервиса находится в файле `test\test_service.py`.
-- Настройки для тестирования находятся в `test\conftest.py` (согласно соглашению pytest).
 - Доступн вызов 3-х тест-кейсов
     - offline - для получения оффлайн рекомендаций
     - online - для получения онлайн рекомендаций
@@ -106,3 +127,20 @@ uvicorn app.recommendations_service:app --port 8000 # --reload --reload-dir app
     ```bash
     python -m pytest test/test_service.py --case=(offline|online|full) -s
     ```
+
+## Тестирование сервиса сбора событий пользователей
+
+- код для тестирования сервиса находится в файле `test\test_event_store.py`
+- запуск тестов
+
+    ```bash
+    python -m pytest test/test_event_store.py -s
+    ```
+## Тестирование сервиса управление контентом
+
+- код для тестирования сервиса находится в файле `test\test_event_store.py`
+- запуск тестов
+
+    ```bash
+    python -m pytest test/test_event_store.py -s
+    ```    

@@ -9,11 +9,11 @@ from fastapi.testclient import TestClient
 '''
 Test cases for user event store service
 
-start main app
-    $: uvicorn app.events.user_event_service:app --port 8001
+start event store service
+    uvicorn app.events.user_event_service:app --port 8001
 
 run test
-    $ python -m pytest test/test_event_store.py -s
+    python -m pytest test/test_event_store.py -s
 '''
 
 log = logging_config.create_logger(__name__)
@@ -72,7 +72,7 @@ def test_get_user_events():
             log.debug(f'successfully got user events - item ids = {response.json()["items"]})')            
         
         else:
-            log.debug('response reason = %s', response.reason)
+            log.error('response reason = %s', response.reason)
 
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
@@ -93,7 +93,28 @@ def test_get_store():
             log.debug(f'successfully got events store = {response.json()})')            
         
         else:
-            log.debug('response reason = %s', response.reason)
+            log.error('response reason = %s', response.reason)
 
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)
+
+def test_stats():
+    url = f'{event_store_url}/stats'
+
+    log.debug(f'get stats - url = {url}')
+    
+    try:
+        response = requests.get(url=url)
+        resp_status = response.status_code
+
+        log.debug('response status = %s', response.status_code)
+        log.debug('response data = %s', response.text)
+        
+        if status.HTTP_200_OK == resp_status:
+            log.debug(f'successfully got stats')
+
+        else:
+            log.error('response reason = %s', response.reason)
+
+    except requests.exceptions.ConnectionError as e:
+        log.error('fail to connect to running service - %s', e)        
