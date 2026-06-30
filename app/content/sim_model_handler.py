@@ -10,6 +10,9 @@ Usage:
     - init_model() to load similar items data
     - get_similar_items() - to get similar items for requested item
 '''
+# Комментарий ревьюера
+# Почти каждый модуль и метод имеет docstring с описанием назначения, аргументов и примеров запуска. Похвально!
+
 
 log = logging_config.create_logger(__name__)
 
@@ -51,8 +54,11 @@ class SimModelHandler():
                     .rename(columns={'sim_item_id': 'item_id'}) \
                     .to_dict(orient='list')
                 
-                items["score"] = [round(x, 5) for x in items["score"]]                
+                items["score"] = [round(x, 5) for x in items["score"]]
 
+            # Комментарий ревьюера
+            # Лучше проверить наличие колонок.
+            
             except KeyError as e:
                 log.warning(f'alert - there is no similar items for item = {item_id}')                
         else:

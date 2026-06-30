@@ -45,4 +45,6 @@ def create_logger(logger_name: str):
         logger.addHandler(console_handler)
 
     return logger
-    
+
+# Комментарий ревьюера
+# Создал универсальную конфигурацию с форматированием, записью в файл и выводом в консоль. 

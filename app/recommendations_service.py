@@ -53,6 +53,8 @@ def get_ml_model():
 app = FastAPI(title='Recomendations service', lifespan=lifespan_listener)
 log.info('FastApi app started (%s)', app)
 
+# Комментарий ревьюера
+# Depends(get_ml_model)- хорошая практика
 @app.post('/get_recommendations_offline')
 def get_recommendations_offline(user_id: int, top_k: int = 10, model: ModelHandler = Depends(get_ml_model)):
     '''
@@ -122,6 +124,11 @@ def get_stats():
     response = stats | ml_model.get_stats()
     return JSONResponse(response)
 
+# Комментарий ревьюера
+# Не обрабатывается случай, когда модель не загружена. 
+#   отмечено к этой строке: def _query_offline_recs(user_id, top_k, model):
+#   но вероятно к верхней: response = stats | ml_model.get_stats()
+
 # ------------------
 
 def _query_offline_recs(user_id, top_k, model):
@@ -182,6 +189,9 @@ def _query_user_event_history(user_id: int, recent_n: int):
     
     return history_items
 
+# Комментарий ревьюера
+# sim_items_result инициализируется None, и если все запросы к content-сервису вернут пустые словари, 
+# то после цикла sim_items_result останется None, и вызов .sort_values может упасть
 def _merge_history_items_recs(history_items, top_k):
     sim_items_result = None
 
@@ -193,7 +203,10 @@ def _merge_history_items_recs(history_items, top_k):
             sim_items_result = pd.DataFrame(sim_items)
         else:
             sim_items_result = pd.concat([sim_items_result, pd.DataFrame(sim_items)])
-        
+            # Комментарий ревьюера
+            # Корректно
+
+
     # take sorted top_k of all items
     sim_items_result = sim_items_result \
             .sort_values(by='score', ascending=False) \

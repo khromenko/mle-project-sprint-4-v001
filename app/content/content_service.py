@@ -23,6 +23,8 @@ sim_ml_model: SimModelHandler = None
 stats = {}
 
 @asynccontextmanager
+# Комментарий ревьюера
+# Правильно применяешь lifespan для загрузки модели при старте приложения и освобождения ресурсов при остановке.
 async def lifespan_listener(app: FastAPI):
     log.info('app starting (%s)', app)
     
@@ -43,6 +45,9 @@ async def lifespan_listener(app: FastAPI):
     log.info('app stoping:  (%s)', app)
 
 def get_ml_model() -> SimModelHandler:
+    # Комментарий ревьюера
+    # Функция выбрасывает обычное исключение, но для API лучше вернуть HTTP 503.
+
     if(sim_ml_model == None):
         raise(Exception('sim ml model was not loaded'))
     return sim_ml_model
@@ -56,6 +61,9 @@ def get_similar_items(item_id: int, model: SimModelHandler = Depends(get_ml_mode
 
     # it is strange if there is no similar items - so mark this response as a special 204 code
     if len(sim_items['item_id']) == 0:
+        # Комментарий ревьюера
+        # Рекомендую проверять наличие ключа.
+
         _add_stat_counter('empty_sim_items_query_count')
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 

@@ -135,5 +135,8 @@ def test_stats():
         else:
             log.error('response reason = %s', response.reason)
 
+            # Комментарий ревьюера
+            # Вопросов нет.
+
     except requests.exceptions.ConnectionError as e:
         log.error('fail to connect to running service - %s', e)        

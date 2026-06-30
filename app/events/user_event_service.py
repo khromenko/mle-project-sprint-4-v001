@@ -59,3 +59,6 @@ def get_stats():
 def _add_stat_counter(name):
     counter = stats[name] if name in stats.keys() else 0
     stats[name] = counter + 1
+
+# Комментарий ревьюера
+# Собираешь метрики успешных и пустых ответов, ошибок обращений к другим сервисам.

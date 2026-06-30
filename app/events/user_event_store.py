@@ -14,6 +14,9 @@ class UserEvent:
         self.item_id = item_id    
 
 class UserEventStore:
+# Комментарий ревьюера
+# Ok
+
     '''
     Online store for user-2-item interaction events.
     The most recent events are added to the head of the list
@@ -23,6 +26,9 @@ class UserEventStore:
         log.debug('User event store init done')
 
     def put(self, event: UserEvent):
+    # Комментарий ревьюера
+    # Пока нормально, но в будущем лучше использовать collections.deque с ограничением размера или хранить события в БД с временными метками.
+
         '''
         Add online user-2-item interaction event
         '''        
